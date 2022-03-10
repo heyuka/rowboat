@@ -4,26 +4,30 @@ namespace rowboat
 {
     internal class Connector
     {
-        private dynamic COM_Object; 
-        private dynamic session; 
-        private dynamic screen;
+        private dynamic COM_Object;             // holds the COM object retrieved from the system
+        private dynamic session;                // holds the active session object
+        private dynamic screen;                 // ideally holds the active display session
         private const int DELAY = 10; 
         private const string CLEAR = "<CLEAR>";
 
         public Connector()
         {
+            // attempt to retrieve the active COM object. 
+            // throws a shoe if there's no active object; should probably fix that
+            // look through the active sessions and try to find a 3270dsp session
+            // throws an error if no matching sessions are found 
             this.COM_Object = Activator.CreateInstance(Type.GetTypeFromProgID("PASSPORT.System")); 
             this.session = null; 
             this.screen = null; 
 
             for (int i = 1; i <= this.COM_Object.Sessions.Count; i++)
             {
-                string sessionName = (this.COM_Object.Session.Item(i).FullName).toUpper();
+                string sessionName = (this.COM_Object.Sessions.Item(i).FullName).ToUpper();
                 string sessionType = "3270DSP"; 
 
                 if (sessionName.Contains(sessionType))
                 {
-                    this.session = this.COM_Object.Session.Item(i);
+                    this.session = this.COM_Object.Sessions.Item(i);
                     this.screen = this.session.screen;
                 }
             }
