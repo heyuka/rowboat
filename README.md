@@ -1,6 +1,4 @@
 # rowboat
----
-> Floating along on a sea 
-> clerical boredom
-> filling free time creates more
----
+> floating along on a sea   
+> clerical boredom  
+> filling free time just makes more  
